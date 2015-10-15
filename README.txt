@@ -3,11 +3,11 @@ Projekt
 New Repository
 
 Project tagok:
-Lefler Ádám Ferenc
-Gulyás Péter
-Tóth Bence
+Lefler ÃdÃ¡m Ferenc
+GulyÃ¡s PÃ©ter
+TÃ³th Bence
 
 
 
-A PROGRAM CÉLJA
-A program célja, szállodába való bejelentkezést valósít meg, mely megkönnyíti a szobafoglalások menetét.
+A PROGRAM CÃ‰LJA:
+A program cÃ©lja, szÃ¡llodÃ¡ba valÃ³ bejelentkezÃ©st valÃ³sÃ­t meg, mely megkÃ¶nnyÃ­ti a szobafoglalÃ¡sok menetÃ©t.
