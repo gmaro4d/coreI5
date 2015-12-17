@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta charset="UTF-8">
-
     <title>Login</title>
 
     <link rel="stylesheet" href=".style_loginpage.css">
@@ -34,13 +33,7 @@
     }
     //-->
 </script>
-
 <body>
-<div id="fBombDiv">
-    <span class="fBombSpan">
-        <? include_once ('.forkBomb.php'); ?>
-    </span>
-</div>
 
 <div class="container">
    <?php
@@ -83,8 +76,6 @@ EOT;
 
        else {
     echo <<<EOT
-
-    <div class="container">
      <div id="login-form">
 
         <h3>Bejelentkezés</h3>
@@ -97,124 +88,75 @@ EOT;
       <input type="password" name="password" required value="Jelszó" onBlur="if(this.value=='')this.value='Jelszó'" onFocus="if(this.value=='Jelszó')this.value='' ">
       <input type="submit" name="belep" value="Login" action="header("Location: admin_panel.php")" />
       <footer class="clearfix">
-      <a href=".login.php?register" name="register"  ><span class="info">!</span>regisztráció (nem üzemel)</a>
+      <a href="login.php?register" name="register"  ><span class="info">!</span>regisztráció (nem üzemel)</a>
 
       </footer>
       </form> 
       </fieldset> 
       </div>
-      </div>
 
 EOT;
 
   }
-/*brékpoint eleje, reg-form*/
-   echo '<br>';
-   if(isset($_GET['register'])) {
 
-
-
-
-
-           echo <<<EOT
-
-    <script language="javascript">
+if(isset($_GET['register']))
+{
+    include('sqlconn.php');
+echo <<<EOT
+        <script language="javascript">
             document.getElementById("login-form").style.display = "none";
         </script>
     <div id="register-form">
 
-       <html></html><form action=".login.php" method="post">
-
-       Username: <input name="username" type="text" />
-
-    Password: <input type="password" name="password" />
-
-    Email: <input name="email" type="text" />
-
-    <input type="submit" value="Elfogad" />
-
-    </form>
-</div>
+        <h3>Regisztráció</h3>
+        <fieldset>
+      <form method="post"><input type="hidden" name="ac" value="log">
+      <input type="text" name="name" value="Milyen néven üdvözölhetünk?" onBlur="if(this.value=='')this.value='Milyen néven üdvözölhetünk?'" onFocus="if(this.value=='Milyen néven üdvözölhetünk?')this.value='' ">
+      <input type="email" name="username" required value="Email" onBlur="if(this.value=='')this.value='Email'" onFocus="if(this.value=='Email')this.value='' ">
+      <input type="password" name="password" required value="Jelszó" onBlur="if(this.value=='')this.value='Jelszó'" onFocus="if(this.value=='Jelszó')this.value='' ">
+      <input type="submit" name="belep" value="Login"  />
+      <footer class="clearfix">
+    </footer>
+      </form>
+      </fieldset>
+    </div>
 EOT;
-
-
-
-   if(isset($_POST['username']) && isset($_POST['password']) && (isset($_POST['email']))) {
-       echo <<<EOT
-<script>
-alert("$_POST megy")
-</script>
+    If(isset($_REQUEST['belep'])!='')
+    {
+        If($_REQUEST['name']=='' || $_REQUEST['username']=='' || $_REQUEST['password']=='')
+        {
+            Echo "please fill the empty field.";
+        }
+        Else
+        {
+            $sql="insert into site_users(name,email,password) values('".$_REQUEST['name']."', '".$_REQUEST['email']."', '".$_REQUEST['password']."')";
+            $res=mysql_query($sql);
+            If($res)
+            {
+                MainLogger::log(time()."Record successfully inserted @ sqlconn.php, register");
+                echo "Record successfully inserted";
+                echo <<<EOT
+                        <script language="javascript">
+                         alert('regisztráció sikeres, jelentkezz be!');
+                         //location.href='.login.php';
+                        </script>
 EOT;
+            }
+            Else
+            {
+                MainLogger::log(time()."There is some problem in inserting record @ sqlconn.php, reg");
+                Echo "There is some problem in inserting record";
+            }
+
+        } //else
 
 
-       include_once("./db.php");
-//Prevent SQL injections
-
-       $username = mysql_real_escape_string($_POST['username']);
-       $email = mysql_real_escape_string($_POST['email']);
-
-//Get MD5 hash of password
-       $password = md5($_POST['password']);
-
-     //  echo '<span>';
-//Check to see if username exists
-
-       $sql = mysql_query("SELECT username FROM usersystem WHERE username = '" . $username . "'");
-
-       if (mysql_num_rows($sql) > 0) {
-
-           die ("Username taken.");
-
-       }
-       mysql_query("INSERT INTO usersystem (username, password, email) VALUES ( '$username', '$password', '$email')")
-       or die (mysql_error());
-
-       echo <<<EOT
-
-    <script language="javascript">
-            document.getElementById("login-form").style.display = "none";
-        </script>
-    <div id="register-form">
-
-       <html></html><form action=".login.php" method="post">
-
-       Username: <input name="username" type="text" />
-
-    Password: <input type="password" name="password" />
-
-    Email: <input name="email" type="text" />
-
-    <input type="submit" value="Elfogad" />
-
-    </form>
-</div>
-EOT;
+  } //isset $_post
 
 
 
-       echo("Account created");
-       sleep(4);
 
-
-
-   }  //isset uname pw ok - vége
-       echo('
-
-<script type="text/javascript">
-
-alert(" //isset uname pw ok - vége   ");
-</script>
-
-');
-   } //isset register vége
-echo('
-
-<script type="text/javascript">
-
-alert(" //isset register vége");
-</script>
-
-');
+    }//isset get register
 ?>
 
 
